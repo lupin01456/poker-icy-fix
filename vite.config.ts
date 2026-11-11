@@ -7,7 +7,12 @@
 // the build fails. Never add compression (compressPublicAssets, vite-plugin-compression):
 // hosting already compresses at the edge.
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
+import { loadEnv } from "vite";
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+
+const projectEnv = loadEnv("production", process.cwd(), "VITE_");
+const publishableKey = projectEnv.VITE_SUPABASE_PUBLISHABLE_KEY ?? projectEnv.VITE_SUPABASE_ANON_KEY;
+if (publishableKey) process.env.VITE_SUPABASE_PUBLISHABLE_KEY = publishableKey;
 
 export default defineConfig({
   tanstackStart: {
